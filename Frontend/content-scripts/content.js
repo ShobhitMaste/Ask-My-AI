@@ -1,12 +1,11 @@
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  const img = document.createElement("img");
-  img.id = request.imageDivId;
-  img.src = request.url;
-  img.style = "height: auto; width: 90vw;";
-  document.body.prepend(img);
-  img.addEventListener("click", () => {
-      img.remove();
-  }, { once: true });
 
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  const answer = request.answer;
+  const answerID = request.answerID;
+  const tabID = request.tabId;
+  console.log("answer - " + answer);
+  console.log("answer id = " + answerID);
+  console.log("tab id  - ", tabID);
+  
   sendResponse({ fromcontent: "This message is from content.js", request, sender });
 });

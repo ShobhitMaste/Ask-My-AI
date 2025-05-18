@@ -1,8 +1,8 @@
 {
-    "name": "Picture inserter using content script",
-    "version": "0.0.0.1",
+    "name": "Ask My AI",
+    "version": "0.1.0.1",
     "manifest_version": 3,
-    "description": "A browser extension that uses JavaScript to insert an image at the top of the current webpage.",
+    "description": "Ask Chad AI your Queries",
     "icons": {
         "16": "icons/extension-icon16x16.png",
         "32": "icons/extension-icon32x32.png",
@@ -20,10 +20,10 @@
             "js": ["content-scripts/content.js"]
         }
     ],
-    "web_accessible_resources": [
-        {
-            "resources": ["images/*.jpeg"],
-            "matches": ["<all_urls>"]
-        }
-    ]
+    "permissions": [
+    "contextMenus"
+    ],
+    "background": {
+    "service_worker": "background/context_menu.js"
+    }
 }
