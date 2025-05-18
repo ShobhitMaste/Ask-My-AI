@@ -35,13 +35,20 @@ server.post("/", async (req, res)=>{
 
   let body = `{"temperature":0.6,"top_p":0.5,"return_images":false,"return_related_questions":false,"top_k":0,"stream":false,"presence_penalty":0,"frequency_penalty":1,"web_search_options":{"search_context_size":"low"},"model":"sonar","messages":[{"content":" ${query} Answer in 1 short sentence. No explanation. Just the conclusion.","role":"user"}]}`
   body = JSON.parse(body);
-  let response = await axios.post("https://api.perplexity.ai/chat/completions", body, options);
-  // response = JSON.parse(response);
-  let total_tokens = response.data.usage.total_tokens;
-  let result = response.data.choices[0].message.content
-  console.log("tokens used = " + total_tokens)
-  console.log(result);
-  res.send({answer : `${result}`})
+  try {
+    let response = await axios.post("https://api.perplexity.ai/chat/completions", body, options);
+    let total_tokens = response.data.usage.total_tokens;
+    let result = response.data.choices[0].message.content;
+    console.log("tokens used = " + total_tokens);
+    console.log(result);
+    res.send({ answer: result });
+  } catch (err) {
+    console.error("API call failed:", err.message);
+    if (err.response) {
+      console.error("Details:", err.response.data);
+    }
+    res.status(500).send({ error: "Failed to get response from Perplexity API. Check your credits or query." });
+  }
   // res.send({answer : `<h1> result </h1>`})
 })
 
