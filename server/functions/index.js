@@ -15,7 +15,7 @@ const server = express();
 server.use(bodyParser.urlencoded({extended: true}));
 server.use(express.json());
 server.use(cors({
-  origin: ["http://localhost:3000","null", "https://127.0.0.1:5001/", "https://askmyai.web.app"]
+  origin: ["*"]
 }));
 
 const options = {

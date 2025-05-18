@@ -3,7 +3,8 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
   const query = request.query;
   const queryID = request.queryID;
   const tabID = request.tabId;
-  let link = chooseLink(2); //1 for real deployed. //2 for local development
+  let link = chooseLink(1); //1 for real deployed. //2 for local development
+  console.log(link);
   try{
 
       const response = await fetch(link, {
