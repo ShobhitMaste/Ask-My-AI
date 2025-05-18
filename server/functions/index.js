@@ -24,8 +24,6 @@ const options = {
     'Content-Type': 'application/json'
   }
 };
-let body = `{"temperature":0.2,"top_p":0.5,"return_images":false,"return_related_questions":false,"top_k":0,"stream":false,"presence_penalty":0,"frequency_penalty":1,"web_search_options":{"search_context_size":"low"},"model":"sonar","messages":[{"content":"Are there more doors or wheels? Answer in 1 short sentence. No explanation. Just the conclusion.","role":"user"}]}`
-body = JSON.parse(body);
 
 server.get("/", (req, res) => {
   res.send("Working");
@@ -34,16 +32,17 @@ server.get("/", (req, res) => {
 server.post("/", async (req, res)=>{
   let query =  req.body.query;
   console.log(query);
-  // let body = `{"temperature":0.2,"top_p":0.5,"return_images":false,"return_related_questions":false,"top_k":0,"stream":false,"presence_penalty":0,"frequency_penalty":1,"web_search_options":{"search_context_size":"low"},"model":"sonar","messages":[{"content":" ${query} Answer in 1 short sentence. No explanation. Just the conclusion.","role":"user"}]}`
-  // body = JSON.parse(body);
-  // let response = await axios.post("https://api.perplexity.ai/chat/completions", body, options);
-  // // response = JSON.parse(response);
-  // let total_tokens = response.data.usage.total_tokens;
-  // let result = response.data.choices[0].message.content
-  // console.log("tokens used = " + total_tokens)
-  // console.log(result);
-  // res.send({answer : `${result}`})
-  res.send({answer : `<h1> result </h1>`})
+
+  let body = `{"temperature":0.6,"top_p":0.5,"return_images":false,"return_related_questions":false,"top_k":0,"stream":false,"presence_penalty":0,"frequency_penalty":1,"web_search_options":{"search_context_size":"low"},"model":"sonar","messages":[{"content":" ${query} Answer in 1 short sentence. No explanation. Just the conclusion.","role":"user"}]}`
+  body = JSON.parse(body);
+  let response = await axios.post("https://api.perplexity.ai/chat/completions", body, options);
+  // response = JSON.parse(response);
+  let total_tokens = response.data.usage.total_tokens;
+  let result = response.data.choices[0].message.content
+  console.log("tokens used = " + total_tokens)
+  console.log(result);
+  res.send({answer : `${result}`})
+  // res.send({answer : `<h1> result </h1>`})
 })
 
 server.listen(port, ()=>{
