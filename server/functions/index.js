@@ -1,6 +1,6 @@
 
 import {onRequest} from "firebase-functions/v2/https";
-
+import cookieSession from "cookie-session"
 import express from "express"
 import axios from "axios"
 import bodyParser from "body-parser"
@@ -17,6 +17,11 @@ server.use(express.json());
 server.use(cors({
   origin: "*"
 }));
+server.use(cookieSession({
+  maxAge: 24*60*60,
+  keys: ["MySessionKey"],
+  name: "session"
+}))
 
 const options = {
   headers: {
