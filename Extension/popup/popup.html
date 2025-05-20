@@ -51,6 +51,14 @@
         .hidden{
             display: none;
         }
+
+        #clickRegister{
+            color:red;
+        }
+        #clickRegister:hover{
+            text-decoration: underline;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -65,7 +73,7 @@
     </div>
 
     <div id="login" class="hidden">
-        <h2>Login</h2>
+        <h2 id="loginTitle">Login</h2>
         <form id="form_login">
             <label for="username" name="username">Username - </label>
             <input type="text" name="username" id="username">

@@ -8,55 +8,29 @@ import bcrypt from "bcrypt"
 //   .skip(5)             // skip first 5
 //   .then(users => console.log(users));
 
-async function createUser(req, res, next) {
-    if(!req.body){
-        return next(new Error("Provide name and password."));
-    }
-
-    const username = req.body.username;
-    const password = req.body.password;
+async function createUser(username, password) {
 
     if(!username || !password){
-        return next(new Error("Provide Full Details!!"));
+        return "Provide Full Details!!";
     }
-
+    const hashedPass = await bcrypt.hash(password, 10);
     try{
-        const user = await userData.create({username, password});
-        res.status(201).json({
-            success: true,
-            user
-        })
+        const user = await userData.create({username, password: hashedPass});
+        console.log(user);
+        return "Registered Successfully!";
     } catch (err) {
-        console.log(err);
-    }
-}
-
-async function validateUser(req, res, next) {
-    if(!req.body){
-        return next(new Error("Provide name and password."));
-    }
-    const username = req.body.username;
-    const password = req.body.password;
-
-    if(!username || !password){
-        return next(new Error("Provide Full Details!!"));
-    }
-
-    try{
-        const user = await userData.find({username, password});
-        if(!user)
-            return next(new Error("User not found"));
-        res.status(201).json({
-            success: true,
-            user
-        })
-    } catch (err) {
-        console.log(err);
+        // return err;
+        return err.errorResponse.errmsg;
+        // console.log(err.errorResponse.errmsg);
     }
 }
 
 
 async function loginUser(username, password){
+
+    if(!username || !password){
+        return "Provide Full Details!!";
+    }
     try{
         const user = await userData.findOne({username});
         if(!user)
@@ -69,4 +43,4 @@ async function loginUser(username, password){
         console.log(err);
     }
 }
-export {createUser, validateUser, loginUser};
+export {createUser, loginUser};

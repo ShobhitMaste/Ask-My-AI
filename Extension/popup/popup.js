@@ -31,22 +31,49 @@ form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const username = form.username.value;
     const password = form.password.value;
-    const result = await fetch(link + "/login", {
-        method:"POST",
-        credentials: "include",
-        headers: {
-            'Content-Type' : 'application/json'
-        },
-        body: JSON.stringify({username, password})
-    });
-    let res = await result.text();
-    if(res == "false"){
-        alert("Wrong username or password!!");
+    if(document.getElementById("loginTitle").textContent == "Login"){
+        const loggedIn = await fetch(link + "/login", {
+            method:"POST",
+            credentials: "include",
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify({username, password})
+        });
+        let res = await loggedIn.text();
+        if(res == "false"){
+            alert("Wrong username or password!!");
+        } else {
+            alert("Logged In Successfully!!");
+            showDashHideLogin();
+        }
+        console.log(res);
     } else {
-        showDashHideLogin();
+        const registered = await fetch(link + "/register", {
+            method: "POST",
+            headers: {
+                'content-Type': 'application/json',
+            },
+            body: JSON.stringify({username, password})
+        });
+        let res = await registered.text();
+        alert(res);
+        if(res == "Registered Successfully!"){
+            document.getElementById("loginTitle").textContent = "Login";
+            document.getElementById("clickRegister").textContent = "New here, Register Now!!";
+        }
     }
-    console.log(res);
 });
+
+document.getElementById("clickRegister").addEventListener("click", () => {
+    if(document.getElementById("loginTitle").textContent == "Login"){
+        document.getElementById("loginTitle").textContent = "Register";
+        document.getElementById("clickRegister").textContent = "Already have an Account, Login Here!!";
+    } else {
+        document.getElementById("loginTitle").textContent = "Login";
+        document.getElementById("clickRegister").textContent = "New here, Register Now!!";
+    }
+})
 
 function sendMessageToChrome(query){
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {

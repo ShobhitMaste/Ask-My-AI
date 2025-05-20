@@ -6,7 +6,7 @@ import bodyParser from "body-parser"
 import dotenv from "dotenv"
 import cors from "cors"
 
-import {createUser, validateUser, loginUser} from './controllers/dbControls.js'
+import {createUser, loginUser} from './controllers/dbControls.js'
 import {dbConnect} from "./utils/dbconfig.js"
 
 dotenv.config();
@@ -16,13 +16,15 @@ const server = express();
 server.use(bodyParser.urlencoded({extended: true}));
 server.use(express.json());
 server.use(cors({
-  origin: "http://127.0.0.1:3001",
+  origin: ["http://127.0.0.1:3001" , "null"],
   credentials:true
 }));
 server.use(cookieSession({
-  maxAge: 24*60*60,
+  maxAge: 60*60*1000,
   keys: ["MySessionKey"],
-  name: "session"
+  name: "session",
+  // httpOnly: true,  // can add secure : __prod__ laterr
+  // sameSite: 'lax'
 }))
 
 const options = {
@@ -60,7 +62,13 @@ server.post("/", async (req, res)=>{
 })
 
 server.post("/register", async (req, res) => {
-  
+  const username = req.body.username;
+  const password = req.body.password;
+  let userCreated = await createUser(username, password);
+  if(userCreated.includes("E11000")){
+    res.send("This username already exists! Choose Different name.");
+  }
+  res.send(userCreated);
 });
 
 server.post("/login", async (req, res) => {
