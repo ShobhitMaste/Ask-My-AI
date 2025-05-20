@@ -1,4 +1,3 @@
-
 import {onRequest} from "firebase-functions/v2/https";
 import cookieSession from "cookie-session"
 import express from "express"
@@ -6,9 +5,10 @@ import axios from "axios"
 import bodyParser from "body-parser"
 import dotenv from "dotenv"
 import cors from "cors"
+import {createUser, validateUser} from './controllers/dbControls.js'
+import {dbConnect} from "./utils/dbconfig.js"
 
 dotenv.config();
-
 const api_key = process.env.API_KEY;
 const port = process.env.LOCALPORT || 3000;
 const server = express();
@@ -57,9 +57,16 @@ server.post("/", async (req, res)=>{
   // res.send({answer : `<h1> result </h1>`})
 })
 
+server.post
+
+dbConnect("mongodb+srv://shobhitandansh:d3lpyT8lOrbNi08a@cluster0.kjc7api.mongodb.net/" )
+
+
 server.listen(port, ()=>{
   console.log(`Connected to Server using ${port} successfully.`);
 })
+
+
 //firebase onrequest method to make "api" the endpoint for this code. 
 //https://us-central1-ask-my-ai-shobhitmaste.cloudfunctions.net/api/
 //above link is the address to talk with this api
