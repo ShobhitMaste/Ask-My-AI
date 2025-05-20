@@ -1,4 +1,6 @@
-import userData from '../models/users.js'
+import {userData} from '../models/users.js'
+import bcrypt from "bcrypt"
+
 //because of above line we have to say default in its export.
 // User.find({ age: { $gte: 18 } })
 //   .sort({ age: -1 })   // descending age
@@ -53,4 +55,18 @@ async function validateUser(req, res, next) {
     }
 }
 
-export {createUser, validateUser};
+
+async function loginUser(username, password){
+    try{
+        const user = await userData.findOne({username});
+        if(!user)
+           return false;
+        const hashedPass = user.password;
+        const isMatch = await bcrypt.compare(password, hashedPass);
+        console.log("match - ", isMatch);
+        return isMatch;
+    } catch (err) {
+        console.log(err);
+    }
+}
+export {createUser, validateUser, loginUser};

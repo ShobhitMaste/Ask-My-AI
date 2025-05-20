@@ -26,7 +26,7 @@
             font-size: 14px;
         }
 
-        input[type="text"] {
+        input {
             padding: 8px;
             font-size: 14px;
             border: 1px solid #ccc;
@@ -47,15 +47,34 @@
         button:hover {
             background-color: #285a8e;
         }
+
+        .hidden{
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <h1>Ask Your Query</h1>
-    <form>
-        <label for="query">Query</label>
-        <input name="query" id="query" type="text" />
-        <button type="submit">Submit</button>
-    </form>
+    
+    <div id="dashboard" class="hidden">
+        <h1>Ask Your Query</h1>
+        <form id="form_query">
+            <label for="query">Query</label>
+            <input name="query" id="query" type="text" />
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <div id="login" class="hidden">
+        <h2>Login</h2>
+        <form id="form_login">
+            <label for="username" name="username">Username - </label>
+            <input type="text" name="username" id="username">
+            <label for="password" name="password">Password - </label>
+            <input type="password" name="password" id="password">
+            <button type="submit">Submit</button>
+        </form>
+        <h3 id="clickRegister">New here, Register Now!!</h3>
+    </div>
     <script src="./popup.js"></script>
 </body>
 </html>

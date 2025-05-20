@@ -5,7 +5,8 @@ import axios from "axios"
 import bodyParser from "body-parser"
 import dotenv from "dotenv"
 import cors from "cors"
-import {createUser, validateUser} from './controllers/dbControls.js'
+
+import {createUser, validateUser, loginUser} from './controllers/dbControls.js'
 import {dbConnect} from "./utils/dbconfig.js"
 
 dotenv.config();
@@ -15,7 +16,8 @@ const server = express();
 server.use(bodyParser.urlencoded({extended: true}));
 server.use(express.json());
 server.use(cors({
-  origin: "*"
+  origin: "http://127.0.0.1:3001",
+  credentials:true
 }));
 server.use(cookieSession({
   maxAge: 24*60*60,
@@ -57,9 +59,29 @@ server.post("/", async (req, res)=>{
   // res.send({answer : `<h1> result </h1>`})
 })
 
-server.post
+server.post("/register", async (req, res) => {
+  
+});
 
-dbConnect("mongodb+srv://shobhitandansh:d3lpyT8lOrbNi08a@cluster0.kjc7api.mongodb.net/" )
+server.post("/login", async (req, res) => {
+  console.log(req.body);
+  const username = req.body.username;
+  const password = req.body.password;
+  let validUser = await loginUser(username, password)
+  console.log("valid user - " + validUser);
+  req.session.idToken = username;
+  res.send(validUser);
+});
+
+//possible hack can come here. should be fixed by checking database
+server.get("/loggedIn", (req, res) => {
+  // console.log("Fecthing/loggin");
+  if(!req.session.idToken)
+    res.send(0);
+  else res.send(1);
+});
+
+dbConnect("mongodb+srv://shobhitandansh:d3lpyT8lOrbNi08a@cluster0.kjc7api.mongodb.net/Ask-My-AI" )
 
 
 server.listen(port, ()=>{

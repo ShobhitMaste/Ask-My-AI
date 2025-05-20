@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 
-const userData = mongoose.Schema({
+const UserData = mongoose.Schema({
 
     username: {type: String, required: true, unique: true},
 
@@ -20,5 +20,5 @@ const userData = mongoose.Schema({
     totalPrompts: {type: Number, default:0}
     
 });
-const uderData = mongoose.model('userData', userData);
-export default {userData};
+const userData = mongoose.model('userData', UserData);
+export {userData};
