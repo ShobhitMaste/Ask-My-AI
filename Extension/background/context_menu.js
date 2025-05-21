@@ -1,4 +1,4 @@
-const link = "https://us-central1-ask-my-ai-shobhitmaste.cloudfunctions.net/api";
+const link = "https://api-wtg5tyfpgq-uc.a.run.app";
 chrome.contextMenus.onClicked.addListener(async (info) => {
     const loggedIn = await fetch(link + "/loggedIn", {
         method: "GET",

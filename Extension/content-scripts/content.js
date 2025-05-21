@@ -28,7 +28,7 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
 
     function chooseLink(choice){
     if(choice == 1)
-        return "https://us-central1-ask-my-ai-shobhitmaste.cloudfunctions.net/api/";
+        return "https://us-central1-ask-my-ai-shobhitmaste.cloudfunctions.net/api";
     else if (choice == 2)
         return "http://127.0.0.1:5001/ask-my-ai-shobhitmaste/us-central1/api";
     else 

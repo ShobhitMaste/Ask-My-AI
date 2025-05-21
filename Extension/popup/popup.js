@@ -1,6 +1,6 @@
 
-const link = "https://us-central1-ask-my-ai-shobhitmaste.cloudfunctions.net/api";
-//blacnk ite screen means frontend html is 
+const link = "https://api-wtg5tyfpgq-uc.a.run.app";
+//blank white screen means frontend html is 
 // not able to communicate with the backend 
 // using fetch
 
