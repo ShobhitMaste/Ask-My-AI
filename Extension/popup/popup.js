@@ -1,20 +1,24 @@
 
-const link = "http://localhost:3000";
+const link = "https://us-central1-ask-my-ai-shobhitmaste.cloudfunctions.net/api/";
 //blacnk ite screen means frontend html is 
 // not able to communicate with the backend 
 // using fetch
 
 //async removed below
 chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
-    console.log("message from context menu - " + message);
-    sendResponse("received");
+    console.log("message from content script - " + message);
+    
     const loggedIn = await fetch(link + "/loggedIn", {
         method: "GET",
         credentials: "include",
     })
     const response = await loggedIn.text();
     console.log("logged in - " + response);
-    
+    if(response != 0){
+        sendResponse("yes");
+    } else {
+        alert("no");
+    }
 });
 
 document.querySelector("#form_query").addEventListener("submit", (event)=>{

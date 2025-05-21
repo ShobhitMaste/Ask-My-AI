@@ -16,7 +16,7 @@ const server = express();
 server.use(bodyParser.urlencoded({extended: true}));
 server.use(express.json());
 server.use(cors({
-  origin: ["http://127.0.0.1:3000", "*"],
+  origin: "*",
   credentials:true
 }));
 server.use(cookieSession({
@@ -101,9 +101,7 @@ server.get("/logout", (req, res) => {
   res.send(1);
 })
 
-dbConnect("mongodb+srv://shobhitandansh:d3lpyT8lOrbNi08a@cluster0.kjc7api.mongodb.net/Ask-My-AI" )
-
-
+dbConnect(process.env.MONGODB);
 server.listen(port, ()=>{
   console.log(`Connected to Server using ${port} successfully.`);
 })
