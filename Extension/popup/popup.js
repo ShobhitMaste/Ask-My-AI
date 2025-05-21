@@ -1,5 +1,5 @@
 
-const link = "https://us-central1-ask-my-ai-shobhitmaste.cloudfunctions.net/api/";
+const link = "https://us-central1-ask-my-ai-shobhitmaste.cloudfunctions.net/api";
 //blacnk ite screen means frontend html is 
 // not able to communicate with the backend 
 // using fetch
