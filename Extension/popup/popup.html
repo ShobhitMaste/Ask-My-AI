@@ -59,6 +59,23 @@
             text-decoration: underline;
             cursor: pointer;
         }
+        #signout{
+            background-color: red;
+            float:right;
+            margin-top:10px;
+            width:90px;
+            height:29px;
+            padding:0;
+            margin-bottom:10px;
+        }
+        #signout:hover{
+            background-color: rgb(195, 1, 1);
+        }
+        .flex{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
@@ -70,6 +87,10 @@
             <input name="query" id="query" type="text" />
             <button type="submit">Submit</button>
         </form>
+        <div class="flex">
+            <p>logged in as - <span id="loggedInUser"></span></p>
+            <button id="signout">Sign Out</button>
+        </div>
     </div>
 
     <div id="login" class="hidden">

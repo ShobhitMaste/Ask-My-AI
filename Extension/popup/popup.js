@@ -17,11 +17,13 @@ document.addEventListener("DOMContentLoaded" ,async () => {
         credentials: "include",
     })
     const response = await loggedIn.text();
+    console.log("logged in - " + response);
     if(response == 0){
         //not logged in
         showLoginHideDash();
     } else { 
         //logged in
+        document.getElementById("loggedInUser").textContent = response;
         showDashHideLogin();
     }
 });
@@ -43,11 +45,15 @@ form.addEventListener("submit", async (event) => {
         let res = await loggedIn.text();
         if(res == "false"){
             alert("Wrong username or password!!");
-        } else {
+        } 
+        else if (res == "true") {
             alert("Logged In Successfully!!");
             showDashHideLogin();
+            document.getElementById("loggedInUser").textContent = username;
         }
-        console.log(res);
+        else {
+            alert(res);
+        }
     } else {
         const registered = await fetch(link + "/register", {
             method: "POST",
@@ -62,6 +68,19 @@ form.addEventListener("submit", async (event) => {
             document.getElementById("loginTitle").textContent = "Login";
             document.getElementById("clickRegister").textContent = "New here, Register Now!!";
         }
+    }
+});
+
+document.getElementById("signout").addEventListener("click",async () => {
+    const loggedOut = await fetch(link + "/logout", {
+        method:"GET",
+        credentials: "include",
+    });
+    const res = await loggedOut.text();
+    console.log("signout response = " + res);
+    if(res == 1){
+        alert("Logged Out Successfully");
+        showLoginHideDash();
     }
 });
 
@@ -96,6 +115,8 @@ function showDashHideLogin(){
     const login = document.getElementById("login");
     dashboard.classList.remove("hidden");
     login.classList.add("hidden");
+    form.username.value = "";
+    form.password.value = "";
 }
 
 function showLoginHideDash(){

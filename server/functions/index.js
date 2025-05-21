@@ -16,15 +16,16 @@ const server = express();
 server.use(bodyParser.urlencoded({extended: true}));
 server.use(express.json());
 server.use(cors({
-  origin: ["http://127.0.0.1:3001" , "null"],
+  origin: ["http://127.0.0.1:3000", "*"],
   credentials:true
 }));
 server.use(cookieSession({
-  maxAge: 60*60*1000,
+  maxAge: 2*60*60*1000,  //2 hours 
   keys: ["MySessionKey"],
   name: "session",
   // httpOnly: true,  // can add secure : __prod__ laterr
-  // sameSite: 'lax'
+  // sameSite: 'none',
+  // secure: true
 }))
 
 const options = {
@@ -77,17 +78,28 @@ server.post("/login", async (req, res) => {
   const password = req.body.password;
   let validUser = await loginUser(username, password)
   console.log("valid user - " + validUser);
-  req.session.idToken = username;
+  if(validUser == true)
+    req.session.idToken = username;
   res.send(validUser);
 });
 
 //possible hack can come here. should be fixed by checking database
 server.get("/loggedIn", (req, res) => {
   // console.log("Fecthing/loggin");
+  console.log("req.session.idtoken  - " + req.session.idToken);
   if(!req.session.idToken)
     res.send(0);
-  else res.send(1);
+  else{
+    res.send(req.session.idToken);
+  } 
 });
+
+server.get("/logout", (req, res) => {
+  console.log("logged out - " + req.session.idToken);
+  req.session = null;
+  console.log("logged out successfully");
+  res.send(1);
+})
 
 dbConnect("mongodb+srv://shobhitandansh:d3lpyT8lOrbNi08a@cluster0.kjc7api.mongodb.net/Ask-My-AI" )
 
