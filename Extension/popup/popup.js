@@ -5,6 +5,18 @@ const link = "http://localhost:3000";
 // using fetch
 
 //async removed below
+chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+    console.log("message from context menu - " + message);
+    sendResponse("received");
+    const loggedIn = await fetch(link + "/loggedIn", {
+        method: "GET",
+        credentials: "include",
+    })
+    const response = await loggedIn.text();
+    console.log("logged in - " + response);
+    
+});
+
 document.querySelector("#form_query").addEventListener("submit", (event)=>{
     event.preventDefault();
     let query = document.querySelector("input").value;
@@ -17,7 +29,6 @@ document.addEventListener("DOMContentLoaded" ,async () => {
         credentials: "include",
     })
     const response = await loggedIn.text();
-    console.log("logged in - " + response);
     if(response == 0){
         //not logged in
         showLoginHideDash();
