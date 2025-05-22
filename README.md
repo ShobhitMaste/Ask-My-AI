@@ -1,6 +1,4 @@
-
-# ![Ask-My-AI Logo](https://raw.githubusercontent.com/ShobhitMaste/Ask-My-AI/main/assets/logo.png) Ask‑My‑AI
-
+# Ask-My-AI
 [![GitHub stars](https://img.shields.io/github/stars/ShobhitMaste/Ask-My-AI)](https://github.com/ShobhitMaste/Ask-My-AI/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/ShobhitMaste/Ask-My-AI)](https://github.com/ShobhitMaste/Ask-My-AI/network)
 [![GitHub issues](https://img.shields.io/github/issues/ShobhitMaste/Ask-My-AI)](https://github.com/ShobhitMaste/Ask-My-AI/issues)
