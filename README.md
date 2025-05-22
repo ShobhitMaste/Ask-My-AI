@@ -1,7 +1,6 @@
 
 # ![Ask-My-AI Logo](https://raw.githubusercontent.com/ShobhitMaste/Ask-My-AI/main/assets/logo.png) Ask‑My‑AI
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![GitHub stars](https://img.shields.io/github/stars/ShobhitMaste/Ask-My-AI)](https://github.com/ShobhitMaste/Ask-My-AI/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/ShobhitMaste/Ask-My-AI)](https://github.com/ShobhitMaste/Ask-My-AI/network)
 [![GitHub issues](https://img.shields.io/github/issues/ShobhitMaste/Ask-My-AI)](https://github.com/ShobhitMaste/Ask-My-AI/issues)
@@ -165,12 +164,6 @@ Contributions are welcome! Please follow these steps:
 3. Commit your changes: `git commit -m 'Add YourFeature'`.
 4. Push to the branch: `git push origin feature/YourFeature`.
 5. Open a pull request.
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
 
 ---
 
