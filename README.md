@@ -122,10 +122,3 @@ Contributions are welcome! Please fork the repository and submit a pull request 
 
 ---
 
-## License
-
-This project is licensed under the MIT License.
-
----
-
-For more details, visit the [Ask-My-AI GitHub Repository](https://github.com/ShobhitMaste/Ask-My-AI).
