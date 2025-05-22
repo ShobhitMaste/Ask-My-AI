@@ -6,12 +6,13 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
     alert("Login First using popup(top right extension icon)");
   }
   else {
-        let link = chooseLink(3); //1 for real deployed. //2 for local development by firebase 3-localhost3000
+        let link = chooseLink(1); //1 for real deployed. //2 for local development by firebase 3-localhost3000
         let apiLink = "";
         //set google api
         if(api == "Google AI")
             apiLink = "/googleapi";
-
+        let username = await chrome.storage.local.get("USERNAME");
+        username = username.USERNAME;
         try{
             const response = await fetch(link + apiLink, {
             //use https://us-central1-ask-my-ai-shobhitmaste.cloudfunctions.net/api/
@@ -20,7 +21,7 @@ chrome.runtime.onMessage.addListener(async function(request, sender, sendRespons
             headers:{
                 "Content-type": "application/json"
         },
-            body: JSON.stringify({query})
+            body: JSON.stringify({query, username})
         })
             let answer = await response.json();
             alert(answer.answer);

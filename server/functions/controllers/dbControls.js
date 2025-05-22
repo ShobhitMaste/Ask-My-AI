@@ -43,4 +43,23 @@ async function loginUser(username, password){
         console.log(err);
     }
 }
-export {createUser, loginUser};
+
+async function saveData(username, query){
+    console.log("saving");
+    try{
+        console.log(username, query)
+        const user = await userData.findOneAndUpdate(
+            {username},
+            {
+                $inc : {totalPrompts : 1},
+                $push : {prompts : {prompt : query} }
+            }
+        );
+
+        console.log("Data saved successfully");
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export {createUser, loginUser, saveData};

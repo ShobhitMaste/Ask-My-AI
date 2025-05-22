@@ -4,7 +4,6 @@ const link = "https://api-wtg5tyfpgq-uc.a.run.app";
 //blank white screen means frontend html is 
 // not able to communicate with the backend 
 // using fetch
-
 //async removed below
 chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     console.log("message from content script - " + message);
@@ -42,6 +41,9 @@ document.addEventListener("DOMContentLoaded" ,async () => {
         showLoginHideDash();
     } else { 
         //logged in
+        chrome.storage.local.set({"USERNAME" : response}, () => {
+            //value set
+        });
         let ai_api = localStorage.getItem("AI_API");
         document.querySelector("select").value = ai_api;
         document.getElementById("loggedInUser").textContent = response;

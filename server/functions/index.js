@@ -6,7 +6,7 @@ import bodyParser from "body-parser"
 import dotenv from "dotenv"
 import cors from "cors"
 import { GoogleGenAI } from "@google/genai";
-import {createUser, loginUser} from './controllers/dbControls.js'
+import {createUser, loginUser, saveData} from './controllers/dbControls.js'
 import {dbConnect} from "./utils/dbconfig.js"
 
 dotenv.config();
@@ -41,6 +41,8 @@ server.get("/", (req, res) => {
 
 server.post("/", async (req, res)=>{
   let query =  req.body.query;
+  let username = req.body.username;
+  console.log(username);
   console.log(query);
 
   let body = `{"temperature":0.6,"top_p":0.5,"return_images":false,"return_related_questions":false,"top_k":0,"stream":false,"presence_penalty":0,"frequency_penalty":1,"web_search_options":{"search_context_size":"low"},"model":"sonar","messages":[{"content":" ${query} Answer in 1 short sentence. No explanation. Just the conclusion.","role":"user"}]}`
@@ -51,6 +53,10 @@ server.post("/", async (req, res)=>{
     let result = response.data.choices[0].message.content;
     console.log("tokens used = " + total_tokens);
     console.log(result);
+    // add data in database
+
+    await saveData(username, query);
+
     res.send({ answer: result });
   } catch (err) {
     console.error("API call failed:", err.message);
@@ -116,6 +122,7 @@ export const api = onRequest(server);
 //google api
 server.post("/googleapi", async (req, res) => {
   const query = req.body.query;
+  const username = req.body.username;
   const ai = new GoogleGenAI({ apiKey: process.env.API_GOOGLE });
   try{
     const response = await ai.models.generateContent({
@@ -124,7 +131,11 @@ server.post("/googleapi", async (req, res) => {
     });
     console.log("Using Google AI - ");
     const answer = response.text.trim();
-    console.log(response.text);
+    console.log(answer);
+
+    //save data
+    await saveData(username, query);
+
     res.send({ answer });
   } catch (err) {
     console.error("API call failed:", err.message);
