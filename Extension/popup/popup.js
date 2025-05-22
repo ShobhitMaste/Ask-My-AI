@@ -35,10 +35,12 @@ document.addEventListener("DOMContentLoaded" ,async () => {
     const response = await loggedIn.text();
     if(response == 0){
         //not logged in
+        document.getElementById("loading").classList.add("hidden");
         showLoginHideDash();
     } else { 
         //logged in
         document.getElementById("loggedInUser").textContent = response;
+        document.getElementById("loading").classList.add("hidden");
         showDashHideLogin();
     }
 });

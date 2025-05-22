@@ -5,7 +5,7 @@ import axios from "axios"
 import bodyParser from "body-parser"
 import dotenv from "dotenv"
 import cors from "cors"
-
+import { GoogleGenAI } from "@google/genai";
 import {createUser, loginUser} from './controllers/dbControls.js'
 import {dbConnect} from "./utils/dbconfig.js"
 
@@ -112,3 +112,19 @@ server.listen(port, ()=>{
 //above link is the address to talk with this api
 //pass query js object and get back the response
 export const api = onRequest(server);
+
+//google api
+server.post("/googleapi", async (req, res) => {
+  console.log(req.body);
+  const ai = new GoogleGenAI({ apiKey: process.env.API_GOOGLE });
+  const question = `8. What is DOM in HTML?
+  a) Language dependent application programming
+  b) Hierarchy of objects in ASP.NET
+  c) Application programming interface
+  d) Convention for representing and interacting with objects in html documents`
+  const response = await ai.models.generateContent({
+    model: "gemma-3n-e4b-it",
+    contents: `${question} .Answer in 1 short sentence. No explanation. Just the conclusion.,`
+  });
+  console.log(response.text);
+});
