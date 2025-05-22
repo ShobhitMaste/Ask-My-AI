@@ -1,5 +1,5 @@
-// const link = "https://api-wtg5tyfpgq-uc.a.run.app";
-const link = "http://localhost:3000";
+const link = "https://api-wtg5tyfpgq-uc.a.run.app";
+// const link = "http://localhost:3000";
 chrome.contextMenus.onClicked.addListener(async (info) => {
     const loggedIn = await fetch(link + "/loggedIn", {
         method: "GET",

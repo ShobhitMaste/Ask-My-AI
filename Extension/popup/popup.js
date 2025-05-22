@@ -1,6 +1,6 @@
 
-// const link = "https://api-wtg5tyfpgq-uc.a.run.app";
-const link = "http://localhost:3000";
+const link = "https://api-wtg5tyfpgq-uc.a.run.app";
+// const link = "http://localhost:3000";
 //blank white screen means frontend html is 
 // not able to communicate with the backend 
 // using fetch
