@@ -115,16 +115,22 @@ export const api = onRequest(server);
 
 //google api
 server.post("/googleapi", async (req, res) => {
-  console.log(req.body);
+  const query = req.body.query;
   const ai = new GoogleGenAI({ apiKey: process.env.API_GOOGLE });
-  const question = `8. What is DOM in HTML?
-  a) Language dependent application programming
-  b) Hierarchy of objects in ASP.NET
-  c) Application programming interface
-  d) Convention for representing and interacting with objects in html documents`
-  const response = await ai.models.generateContent({
-    model: "gemma-3n-e4b-it",
-    contents: `${question} .Answer in 1 short sentence. No explanation. Just the conclusion.,`
-  });
-  console.log(response.text);
+  try{
+    const response = await ai.models.generateContent({
+      model: "gemma-3n-e4b-it",
+      contents: `${query} .Answer in 1 short sentence. very brief explanation. Just the conclusion.,`
+    });
+    console.log("Using Google AI - ");
+    const answer = response.text.trim();
+    console.log(response.text);
+    res.send({ answer });
+  } catch (err) {
+    console.error("API call failed:", err.message);
+    if (err.response) {
+      console.error("Details:", err.response.data);
+    }
+    res.status(500).send({ error: "Failed to get response from Google API. You are on your own 👀" });
+  }
 });

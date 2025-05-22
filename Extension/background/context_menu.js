@@ -1,4 +1,5 @@
-const link = "https://api-wtg5tyfpgq-uc.a.run.app";
+// const link = "https://api-wtg5tyfpgq-uc.a.run.app";
+const link = "http://localhost:3000";
 chrome.contextMenus.onClicked.addListener(async (info) => {
     const loggedIn = await fetch(link + "/loggedIn", {
         method: "GET",
@@ -7,7 +8,9 @@ chrome.contextMenus.onClicked.addListener(async (info) => {
     const response = await loggedIn.text();
     console.log("logged in - " + response);
     if(response != 0){
-        sendMessageToChrome(info.selectionText);
+        let ai_api = await chrome.storage.local.get("AI_API");
+        console.log(ai_api.AI_API);
+        sendMessageToChrome(info.selectionText, ai_api.AI_API);
     } else {
         sendMessageToChrome("no");
     }
@@ -31,11 +34,12 @@ chrome.runtime.onInstalled.addListener(function(){
     }
 })
 
-function sendMessageToChrome(query){
+function sendMessageToChrome(query, ai_api){
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
         chrome.tabs.sendMessage(
             tabs[0].id,
             {
+                api: ai_api,
                 query,
                 queryID: crypto.randomUUID(),
                 tabId: tabs[0].id
