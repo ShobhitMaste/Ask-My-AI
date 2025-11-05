@@ -20,7 +20,7 @@ server.use(cors({
   credentials:true
 }));
 server.use(cookieSession({
-  maxAge: 2*60*60*1000,  //2 hours 
+  maxAge: 7*24*60*60*1000,  //1 week
   keys: ["MySessionKey"],
   name: "session",
   // httpOnly: true,  // can add secure : __prod__ laterr
@@ -54,6 +54,7 @@ server.post("/", async (req, res)=>{
     console.log("tokens used = " + total_tokens);
     console.log(result);
     // add data in database
+    query = "Perplexity - " + query;
 
     await saveData(username, query);
 
@@ -121,7 +122,7 @@ export const api = onRequest(server);
 
 //google api
 server.post("/googleapi", async (req, res) => {
-  const query = req.body.query;
+  let query = req.body.query;
   const username = req.body.username;
   const ai = new GoogleGenAI({ apiKey: process.env.API_GOOGLE });
   try{
@@ -132,6 +133,7 @@ server.post("/googleapi", async (req, res) => {
     console.log("Using Google AI - ");
     const answer = response.text.trim();
     console.log(answer);
+    query = "Google Gemma - " + query;
 
     //save data
     await saveData(username, query);

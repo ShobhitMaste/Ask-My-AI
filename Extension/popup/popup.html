@@ -133,6 +133,13 @@
             align-items: center;
             gap:10px;
         }
+        .margintop0{
+            margin-top: 0px;
+        }
+        select{
+            height:30px;
+            
+        }
     </style>
 </head>
 <body>
@@ -178,6 +185,7 @@
     </div>
 
     <div id="settingsMenu" class="hidden">
+
         <div class="flex2">
             <p>choose AI to use - </p>
             <select id="API_Option">
@@ -185,10 +193,22 @@
                 <option selected>Google AI</option>
             </select>
         </div>
+
+        <div class="flex2 margintop0">
+            <p>Choose Output Method - </p>
+            <select id="output_option">
+                <option selected>Alert</option>
+                <option>Overlay (Ctrl + Shift + Z)</option>
+            </select>
+        </div>
+        
         <div id="savebutton" class="flex2">
             <button id="saveSettings">Save Settings</button>
         </div>
+        
+        <p><strong><b>IMP - </b></strong> If choosing output as overlay. u need to use hotkey <b>(ctrl + shift + Z)</b> to control closing and opening it .Keep this in mind.</p>
     </div>
+    
     <script src="./popup.js"></script>
 </body>
 </html>

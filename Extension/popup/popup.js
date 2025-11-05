@@ -25,8 +25,9 @@ document.querySelector("#form_query").addEventListener("submit", (event)=>{
     event.preventDefault();
     let query = document.querySelector("input").value;
     let ai_api = localStorage.getItem("AI_API");
-    console.log("ai to use - " + ai_api);
-    sendMessageToChrome(query, ai_api);
+    let output_method = localStorage.getItem("OUTPUT");
+    console.log("ai to use - " + ai_api + "\nOutput method - " + output_method);
+    sendMessageToChrome(query, ai_api, output_method);
 })
 
 document.addEventListener("DOMContentLoaded" ,async () => {
@@ -45,7 +46,9 @@ document.addEventListener("DOMContentLoaded" ,async () => {
             //value set
         });
         let ai_api = localStorage.getItem("AI_API");
-        document.querySelector("select").value = ai_api;
+        let outputForm = localStorage.getItem("OUTPUT");
+        document.querySelector("#output_option").value = outputForm;
+        document.querySelector("#API_Option").value = ai_api;
         document.getElementById("loggedInUser").textContent = response;
         document.getElementById("loading").classList.add("hidden");
         showDashHideLogin();
@@ -114,10 +117,14 @@ document.querySelector(".settings").addEventListener("click", () => {
 });
 
 document.getElementById("saveSettings").addEventListener("click", ()=>{
-    const select = document.querySelector("select");
+    const select = document.querySelector("#API_Option");
+    const output = document.querySelector("#output_option");
     let API = select.value;
+    let outputOption = output.value;
+    console.log(outputOption);
     localStorage.setItem("AI_API", API);
-    chrome.storage.local.set({AI_API : API}, () => {
+    localStorage.setItem("OUTPUT", outputOption);
+    chrome.storage.local.set({AI_API : API, OUTPUT : outputOption}, () => {
         console.log("value set");
     })
     let savedIcon = document.createElement('div');
@@ -138,11 +145,12 @@ document.getElementById("clickRegister").addEventListener("click", () => {
 })
 
 
-function sendMessageToChrome(query, ai_api){
+function sendMessageToChrome(query, ai_api, output_method){
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
         chrome.tabs.sendMessage(
             tabs[0].id,
             {   
+                output_method,
                 api: ai_api,
                 query,
                 queryID: crypto.randomUUID(),

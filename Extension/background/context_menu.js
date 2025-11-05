@@ -1,5 +1,6 @@
 const link = "https://api-wtg5tyfpgq-uc.a.run.app";
 // const link = "http://localhost:3000";
+// chrome.action.setTitle({ title: "`chrome.action.setTitle` sets the text displayed on the browser extension's action button in the toolbar." });
 chrome.contextMenus.onClicked.addListener(async (info) => {
     const loggedIn = await fetch(link + "/loggedIn", {
         method: "GET",
@@ -9,8 +10,9 @@ chrome.contextMenus.onClicked.addListener(async (info) => {
     console.log("logged in - " + response);
     if(response != 0){
         let ai_api = await chrome.storage.local.get("AI_API");
-        console.log(ai_api.AI_API);
-        sendMessageToChrome(info.selectionText, ai_api.AI_API);
+        let outputForm = await chrome.storage.local.get("OUTPUT");
+        console.log(ai_api.AI_API, outputForm.OUTPUT);
+        sendMessageToChrome(info.selectionText, ai_api.AI_API, outputForm.OUTPUT);
     } else {
         sendMessageToChrome("no");
     }
@@ -34,11 +36,32 @@ chrome.runtime.onInstalled.addListener(function(){
     }
 })
 
-function sendMessageToChrome(query, ai_api){
+chrome.commands.onCommand.addListener(async (command) => {
+    switch(command){
+        case "show-overlay-answer": {
+            let [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+
+            // Execute script in the current tab
+            await chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                func: toggleAnswer
+            })
+        }
+    }
+});
+
+
+function toggleAnswer(){
+    document.getElementById("masteTextArea69420").classList.toggle("displayHideByMaste");
+}
+
+
+function sendMessageToChrome(query, ai_api, output_method){
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
         chrome.tabs.sendMessage(
             tabs[0].id,
             {
+                output_method,
                 api: ai_api,
                 query,
                 queryID: crypto.randomUUID(),
